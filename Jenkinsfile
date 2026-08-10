@@ -102,19 +102,20 @@ pipeline {
         }
 
         stage('Container Test') {
-            steps {
-                echo 'Testing running Docker container...'
+    steps {
+        echo 'Testing running Docker container...'
 
-                sh '''
-                    sleep 3
+        sh '''
+            sleep 3
 
-                    curl -f http://localhost:${HOST_PORT}
+            docker exec ${CONTAINER_NAME} \
+                wget -qO- http://localhost/ \
+                | grep -q "Davine Technologies"
 
-                    echo ""
-                    echo "Container test PASSED"
-                '''
-            }
-        }
+            echo "Container test PASSED"
+        '''
+    }
+}
 
         stage('Package') {
             steps {
