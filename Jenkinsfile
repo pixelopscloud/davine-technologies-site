@@ -2,92 +2,119 @@ pipeline {
 
     agent any
 
+    environment {
+        APP_NAME = 'davine-site'
+        APP_VERSION = "${BUILD_NUMBER}"
+    }
+
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Checking out code from GitHub...'
+                echo "Checking out source code..."
                 checkout scm
             }
         }
 
         stage('Validate') {
             steps {
-                echo 'Validating project files...'
+                echo "Validating ${APP_NAME}..."
 
                 sh '''
                     test -f index.html
                     test -f README.md
+                    test -f Jenkinsfile
 
-                    echo "Required files found"
+                    echo "All required files found."
                 '''
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building the website...'
+                echo "Building ${APP_NAME} version ${APP_VERSION}..."
 
                 sh '''
-                    mkdir -p build
+                    rm -rf build
+                    mkdir build
+
                     cp index.html build/
                     cp README.md build/
 
-                    echo "Build completed"
+                    echo "${APP_NAME}" > build/app-name.txt
+                    echo "${APP_VERSION}" > build/version.txt
+
+                    echo "Build completed."
                 '''
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests...'
+                echo "Running application tests..."
 
                 sh '''
-                    if grep -q "Davine Technologies" build/index.html; then
-                        echo "Website title test PASSED"
-                    else
-                        echo "Website title test FAILED"
-                        exit 1
-                    fi
+                    echo "Test 1: Checking application name..."
 
-                    if grep -q "DevOps" build/index.html; then
-                        echo "DevOps content test PASSED"
-                    else
-                        echo "DevOps content test FAILED"
-                        exit 1
-                    fi
+                    grep -q "Davine Technologies" build/index.html
+
+                    echo "Test 1 PASSED"
+
+
+                    echo "Test 2: Checking DevOps content..."
+
+                    grep -q "DevOps" build/index.html
+
+                    echo "Test 2 PASSED"
+
+
+                    echo "Test 3: Checking version..."
+
+                    test -s build/version.txt
+
+                    echo "Test 3 PASSED"
                 '''
             }
         }
 
         stage('Package') {
             steps {
-                echo 'Creating deployment package...'
+                echo "Creating package..."
 
                 sh '''
-                    tar -czf davine-site.tar.gz build/
-                    ls -lh davine-site.tar.gz
+                    tar -czf ${APP_NAME}-${APP_VERSION}.tar.gz build/
+
+                    ls -lh ${APP_NAME}-${APP_VERSION}.tar.gz
                 '''
             }
         }
 
         stage('Archive') {
             steps {
-                echo 'Archiving build artifact...'
+                echo "Archiving artifact..."
 
-                archiveArtifacts artifacts: 'davine-site.tar.gz',
+                archiveArtifacts artifacts: "${APP_NAME}-${APP_VERSION}.tar.gz",
                                  fingerprint: true
             }
         }
     }
 
     post {
+
         success {
-            echo 'Pipeline completed successfully!'
+            echo "================================"
+            echo "PIPELINE SUCCESS"
+            echo "Application: ${APP_NAME}"
+            echo "Version: ${APP_VERSION}"
+            echo "================================"
         }
 
         failure {
-            echo 'Pipeline failed. Check logs above.'
+            echo "================================"
+            echo "PIPELINE FAILED"
+            echo "Application: ${APP_NAME}"
+            echo "Build: ${BUILD_NUMBER}"
+            echo "================================"
         }
     }
 }
