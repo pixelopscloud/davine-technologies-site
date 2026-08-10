@@ -1,24 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Davine Technologies</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Davine Technologies</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 3px solid #38bdf8;
+  }
+  header h1 {
+    font-size: 2.6rem;
+    color: #38bdf8;
+    margin-bottom: 10px;
+  }
+  header p {
+    font-size: 1.1rem;
+    color: #94a3b8;
+  }
+  .badge {
+    display: inline-block;
+    margin-top: 20px;
+    background: #38bdf8;
+    color: #0f172a;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+  }
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 20px;
+  }
+  section {
+    margin-bottom: 40px;
+  }
+  h2 {
+    color: #38bdf8;
+    border-left: 4px solid #38bdf8;
+    padding-left: 12px;
+    margin-bottom: 20px;
+  }
+  .services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: #38bdf8;
+  }
+  .card h3 {
+    color: #f8fafc;
+    margin-bottom: 8px;
+  }
+  .card p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+  }
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    font-size: 0.9rem;
+    border-top: 1px solid #334155;
+  }
+</style>
 </head>
 <body>
 
-    <h1>Welcome to Davine Technologies</h1>
+<header>
+  <h1>Davine Technologies</h1>
+  <p>Building Smarter DevOps Solutions</p>
+  <span class="badge">Deployed via Jenkins CI/CD Pipeline</span>
+</header>
 
-    <p>DevOps CI/CD Pipeline Demo</p>
+<main>
+  <section>
+    <h2>About Us</h2>
+    <p>Davine Technologies specializes in modern DevOps practices, helping teams
+    automate delivery, improve reliability, and ship software faster through
+    continuous integration and continuous deployment.</p>
+  </section>
 
+  <section>
     <h2>Our Services</h2>
+    <div class="services">
+      <div class="card">
+        <h3>Cloud Computing</h3>
+        <p>Scalable infrastructure design and management across major cloud platforms.</p>
+      </div>
+      <div class="card">
+        <h3>DevOps Consulting</h3>
+        <p>End-to-end pipeline design, from source control to production deployment.</p>
+      </div>
+      <div class="card">
+        <h3>Kubernetes</h3>
+        <p>Container orchestration, scaling, and cluster management solutions.</p>
+      </div>
+      <div class="card">
+        <h3>CI/CD Automation</h3>
+        <p>Jenkins pipelines that build, test, and deploy automatically on every push.</p>
+      </div>
+    </div>
+  </section>
 
-    <ul>
-        <li>Cloud Computing</li>
-        <li>DevOps</li>
-        <li>Kubernetes</li>
-        <li>CI/CD Automation</li>
-    </ul>
+  <section>
+    <h2>This Deployment</h2>
+    <p>This page was built, tested, and deployed automatically through a Jenkins
+    Declarative Pipeline triggered by a GitHub webhook — no manual steps involved.</p>
+  </section>
+</main>
+
+<footer>
+  &copy; 2026 Davine Technologies. All rights reserved.
+</footer>
 
 </body>
 </html>
